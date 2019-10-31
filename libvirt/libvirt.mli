@@ -300,6 +300,7 @@ sig
 
 	[connect ()] connects to the default hypervisor.
     *)
+
   val connect_readonly : ?name:string -> unit -> ro t
     (** [connect_readonly ~name ()] connects in read-only mode
 	to the hypervisor with URI [name].
@@ -315,6 +316,7 @@ sig
 	[connect_auth auth] connects to the default hypervisor, using
 	[auth] as authentication handler.
     *)
+
   val connect_auth_readonly : ?name:string -> auth -> ro t
     (** [connect_auth_readonly ~name auth] connects in read-only mode
 	to the hypervisor with URI [name], using [auth] as authentication
@@ -339,13 +341,17 @@ sig
     (** Returns the driver version
 	[major * 1_000_000 + minor * 1000 + release]
     *)
+
   val get_hostname : [>`R] t -> string
     (** Returns the hostname of the physical server. *)
+
   val get_uri : [>`R] t -> string
     (** Returns the canonical connection URI. *)
+
   val get_max_vcpus : [>`R] t -> ?type_:string -> unit -> int
     (** Returns the maximum number of virtual CPUs
 	supported by a guest VM of a particular type. *)
+
   val list_domains : [>`R] t -> int -> int array
     (** [list_domains conn max] returns the running domain IDs,
 	up to a maximum of [max] entries.
@@ -356,12 +362,16 @@ sig
 	{!Libvirt.Domain.get_domains},
 	{!Libvirt.Domain.get_domains_and_infos}.
     *)
+
   val num_of_domains : [>`R] t -> int
     (** Returns the number of running domains. *)
+
   val get_capabilities : [>`R] t -> xml
     (** Returns the hypervisor capabilities (as XML). *)
+
   val num_of_defined_domains : [>`R] t -> int
     (** Returns the number of inactive (shutdown) domains. *)
+
   val list_defined_domains : [>`R] t -> int -> string array
     (** [list_defined_domains conn max]
 	returns the names of the inactive domains, up to
@@ -373,16 +383,20 @@ sig
 	{!Libvirt.Domain.get_domains},
 	{!Libvirt.Domain.get_domains_and_infos}.
     *)
+
   val num_of_networks : [>`R] t -> int
     (** Returns the number of networks. *)
+
   val list_networks : [>`R] t -> int -> string array
     (** [list_networks conn max]
 	returns the names of the networks, up to a maximum
 	of [max] entries.
 	Call {!num_of_networks} first to get a value for [max].
     *)
+
   val num_of_defined_networks : [>`R] t -> int
     (** Returns the number of inactive networks. *)
+
   val list_defined_networks : [>`R] t -> int -> string array
     (** [list_defined_networks conn max]
 	returns the names of the inactive networks, up to a maximum
@@ -392,20 +406,26 @@ sig
 
   val num_of_pools : [>`R] t -> int
     (** Returns the number of storage pools. *)
+
   val list_pools : [>`R] t -> int -> string array
     (** Return list of storage pools. *)
+
   val num_of_defined_pools : [>`R] t -> int
     (** Returns the number of storage pools. *)
+
   val list_defined_pools : [>`R] t -> int -> string array
     (** Return list of storage pools. *)
 
     (* The name of this function is inconsistent, but the inconsistency
      * is really in libvirt itself.
      *)
+
   val num_of_secrets : [>`R] t -> int
     (** Returns the number of secrets. *)
+
   val list_secrets : [>`R] t -> int -> string array
     (** Returns the list of secrets. *)
+
   val get_node_info : [>`R] t -> node_info
     (** Return information about the physical server. *)
 
@@ -437,8 +457,10 @@ sig
 
   val use_cpu : bytes -> int -> unit
     (** [use_cpu cpumap cpu] marks [cpu] as usable in [cpumap]. *)
+
   val unuse_cpu : bytes -> int -> unit
     (** [unuse_cpu cpumap cpu] marks [cpu] as not usable in [cpumap]. *)
+
   val cpu_usable : bytes -> int -> int -> int -> bool
     (** [cpu_usable cpumaps maplen vcpu cpu] checks returns true iff the
 	[cpu] is usable by [vcpu]. *)
@@ -595,18 +617,25 @@ sig
 	from the given XML.
 	@deprecated Use {!create_xml} instead.
     *)
+
   val create_xml : [>`W] Connect.t -> xml -> domain_create_flag list -> rw t
     (** Create a new guest domain from the given XML. *)
+
   val lookup_by_id : 'a Connect.t -> int -> 'a t
     (** Lookup a domain by ID. *)
+
   val lookup_by_uuid : 'a Connect.t -> uuid -> 'a t
     (** Lookup a domain by UUID.  This uses the packed byte array UUID. *)
+
   val lookup_by_uuid_string : 'a Connect.t -> string -> 'a t
     (** Lookup a domain by (string) UUID. *)
+
   val lookup_by_name : 'a Connect.t -> string -> 'a t
     (** Lookup a domain by name. *)
+
   val destroy : [>`W] t -> unit
     (** Abruptly destroy a domain. *)
+
   val free : [>`R] t -> unit
     (** [free domain] frees the domain object in memory.
 
@@ -617,77 +646,109 @@ sig
 
   val suspend : [>`W] t -> unit
     (** Suspend a domain. *)
+
   val resume : [>`W] t -> unit
     (** Resume a domain. *)
+
   val save : [>`W] t -> filename -> unit
     (** Suspend a domain, then save it to the file. *)
+
   val restore : [>`W] Connect.t -> filename -> unit
     (** Restore a domain from a file. *)
+
   val core_dump : [>`W] t -> filename -> unit
     (** Force a domain to core dump to the named file. *)
+
   val shutdown : [>`W] t -> unit
     (** Shutdown a domain. *)
+
   val reboot : [>`W] t -> unit
     (** Reboot a domain. *)
+
   val get_name : [>`R] t -> string
     (** Get the domain name. *)
+
   val get_uuid : [>`R] t -> uuid
     (** Get the domain UUID (as a packed byte array). *)
+
   val get_uuid_string : [>`R] t -> string
     (** Get the domain UUID (as a printable string). *)
+
   val get_id : [>`R] t -> int
     (** [get_id dom] returns the ID of the domain.  In most cases
 	this returns [-1] if the domain is not running. *)
+
   val get_os_type : [>`R] t -> string
     (** Get the operating system type. *)
+
   val get_max_memory : [>`R] t -> int64
     (** Get the maximum memory allocation. *)
+
   val set_max_memory : [>`W] t -> int64 -> unit
     (** Set the maximum memory allocation. *)
+
   val set_memory : [>`W] t -> int64 -> unit
     (** Set the normal memory allocation. *)
+
   val get_info : [>`R] t -> info
     (** Get information about a domain. *)
+
   val get_xml_desc : [>`R] t -> xml
     (** Get the XML description of a domain. *)
+
   val get_xml_desc_flags : [>`W] t -> xml_desc_flag list -> xml
     (** Get the XML description of a domain, with the possibility
 	to specify flags. *)
+
   val get_scheduler_type : [>`R] t -> string * int
     (** Get the scheduler type. *)
+
   val get_scheduler_parameters : [>`R] t -> int -> sched_param array
     (** Get the array of scheduler parameters. *)
+
   val set_scheduler_parameters : [>`W] t -> sched_param array -> unit
     (** Set the array of scheduler parameters. *)
+
   val define_xml : [>`W] Connect.t -> xml -> rw t
     (** Define a new domain (but don't start it up) from the XML. *)
+
   val undefine : [>`W] t -> unit
     (** Undefine a domain - removes its configuration. *)
+
   val create : [>`W] t -> unit
     (** Launch a defined (inactive) domain. *)
+
   val get_autostart : [>`R] t -> bool
     (** Get the autostart flag for a domain. *)
+
   val set_autostart : [>`W] t -> bool -> unit
     (** Set the autostart flag for a domain. *)
+
   val set_vcpus : [>`W] t -> int -> unit
     (** Change the number of vCPUs available to a domain. *)
+
   val pin_vcpu : [>`W] t -> int -> string -> unit
     (** [pin_vcpu dom vcpu bitmap] pins a domain vCPU to a bitmap of physical
 	CPUs.  See the libvirt documentation for details of the
 	layout of the bitmap. *)
+
   val get_vcpus : [>`R] t -> int -> int -> int * vcpu_info array * string
     (** [get_vcpus dom maxinfo maplen] returns the pinning information
 	for a domain.  See the libvirt documentation for details
 	of the array and bitmap returned from this function.
     *)
+
   val get_cpu_stats : [>`R] t -> typed_param list array
     (** [get_pcpu_stats dom] returns the physical CPU stats
 	for a domain.  See the libvirt documentation for details.
     *)
+
   val get_max_vcpus : [>`R] t -> int
     (** Returns the maximum number of vCPUs supported for this domain. *)
+
   val attach_device : [>`W] t -> xml -> unit
     (** Attach a device (described by the device XML) to a domain. *)
+
   val detach_device : [>`W] t -> xml -> unit
     (** Detach a device (described by the device XML) from a domain. *)
 
@@ -705,6 +766,7 @@ sig
 
   val block_stats : [>`R] t -> string -> block_stats
     (** Returns block device stats. *)
+
   val interface_stats : [>`R] t -> string -> interface_stats
     (** Returns network interface stats. *)
 
@@ -716,6 +778,7 @@ sig
 	at offset [boff], for [size] bytes.
 
 	See also {!max_peek}. *)
+
   val memory_peek : [>`W] t -> memory_flag list -> int64 -> int ->
     string -> int -> unit
     (** [memory_peek dom Virtual offset size] reads [size] bytes
@@ -1131,20 +1194,28 @@ sig
 
   val lookup_by_name : 'a Connect.t -> string -> 'a t
     (** Lookup a network by name. *)
+
   val lookup_by_uuid : 'a Connect.t -> uuid -> 'a t
     (** Lookup a network by (packed) UUID. *)
+
   val lookup_by_uuid_string : 'a Connect.t -> string -> 'a t
     (** Lookup a network by UUID string. *)
+
   val create_xml : [>`W] Connect.t -> xml -> rw t
     (** Create a network. *)
+
   val define_xml : [>`W] Connect.t -> xml -> rw t
     (** Define but don't activate a network. *)
+
   val undefine : [>`W] t -> unit
     (** Undefine configuration of a network. *)
+
   val create : [>`W] t -> unit
     (** Start up a defined (inactive) network. *)
+
   val destroy : [>`W] t -> unit
     (** Destroy a network. *)
+
   val free : [>`R] t -> unit
     (** [free network] frees the network object in memory.
 
@@ -1155,16 +1226,22 @@ sig
 
   val get_name : [>`R] t -> string
     (** Get network name. *)
+
   val get_uuid : [>`R] t -> uuid
     (** Get network packed UUID. *)
+
   val get_uuid_string : [>`R] t -> string
     (** Get network UUID as a printable string. *)
+
   val get_xml_desc : [>`R] t -> xml
     (** Get XML description of a network. *)
+
   val get_bridge_name : [>`R] t -> string
     (** Get bridge device name of a network. *)
+
   val get_autostart : [>`R] t -> bool
     (** Get the autostart flag for a network. *)
+
   val set_autostart : [>`W] t -> bool -> unit
     (** Set the autostart flag for a network. *)
 
@@ -1206,18 +1283,25 @@ sig
 
   val create_xml : [>`W] Connect.t -> xml -> rw t
     (** Create a storage pool. *)
+
   val define_xml : [>`W] Connect.t -> xml -> rw t
     (** Define but don't activate a storage pool. *)
+
   val build : [>`W] t -> pool_build_flags -> unit
     (** Build a storage pool. *)
+
   val undefine : [>`W] t -> unit
     (** Undefine configuration of a storage pool. *)
+
   val create : [>`W] t -> unit
     (** Start up a defined (inactive) storage pool. *)
+
   val destroy : [>`W] t -> unit
     (** Destroy a storage pool. *)
+
   val delete : [>`W] t -> unit
     (** Delete a storage pool. *)
+
   val free : [>`R] t -> unit
     (** Free a storage pool object in memory.
 
@@ -1225,26 +1309,34 @@ sig
 	collected.  This function just forces it to be freed right
 	away.
     *)
+
   val refresh : [`R] t -> unit
     (** Refresh the list of volumes in the storage pool. *)
 
   val get_name : [`R] t -> string
     (** Name of the pool. *)
+
   val get_uuid : [`R] t -> uuid
     (** Get the UUID (as a packed byte array). *)
+
   val get_uuid_string : [`R] t -> string
     (** Get the UUID (as a printable string). *)
+
   val get_info : [`R] t -> pool_info
     (** Get information about the pool. *)
+
   val get_xml_desc : [`R] t -> xml
     (** Get the XML description. *)
+
   val get_autostart : [`R] t -> bool
     (** Get the autostart flag for the storage pool. *)
+
   val set_autostart : [>`W] t -> bool -> unit
     (** Set the autostart flag for the storage pool. *)
 
   val num_of_volumes : [`R] t -> int
     (** Returns the number of storage volumes within the storage pool. *)
+
   val list_volumes : [`R] t -> int -> string array
     (** Return list of storage volumes. *)
 
@@ -1284,19 +1376,25 @@ sig
 
   val get_name : [`R] t -> string
     (** Name of the volume. *)
+
   val get_key : [`R] t -> string
     (** Key of the volume. *)
+
   val get_path : [`R] t -> string
     (** Path of the volume. *)
+
   val get_info : [`R] t -> vol_info
     (** Get information about the storage volume. *)
+
   val get_xml_desc : [`R] t -> xml
     (** Get the XML description. *)
 
   val create_xml : [>`W] Pool.t -> xml -> unit
     (** Create a storage volume. *)
+
   val delete : [>`W] t -> vol_delete_flags -> unit
     (** Delete a storage volume. *)
+
   val free : [>`R] t -> unit
     (** Free a storage volume object in memory.
 
@@ -1329,8 +1427,10 @@ sig
 
   val lookup_by_uuid : 'a Connect.t -> uuid -> 'a t
     (** Lookup a secret by UUID.  This uses the packed byte array UUID. *)
+
   val lookup_by_uuid_string : 'a Connect.t -> string -> 'a t
     (** Lookup a secret by (string) UUID. *)
+
   val lookup_by_usage : 'a Connect.t -> secret_usage_type -> string -> 'a t
     (** Lookup a secret by usage type, and usage ID. *)
 
@@ -1339,17 +1439,22 @@ sig
 
   val get_uuid : [>`R] t -> uuid
     (** Get the UUID (as a packed byte array) of the secret. *)
+
   val get_uuid_string : [>`R] t -> string
     (** Get the UUID (as a printable string) of the secret. *)
+
   val get_usage_type : [>`R] t -> secret_usage_type
     (** Get the usage type of the secret. *)
+
   val get_usage_id : [>`R] t -> string
     (** Get the usage ID of the secret. *)
+
   val get_xml_desc : [>`R] t -> xml
     (** Get the XML description. *)
 
   val set_value : [>`W] t -> bytes -> unit
     (** Set a new value for the secret. *)
+
   val get_value : [>`R] t -> bytes
     (** Get the value of the secret. *)
 

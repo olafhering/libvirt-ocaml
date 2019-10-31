@@ -22,6 +22,7 @@
 
 val package : string
 (** The name of the OCaml libvirt bindings. *)
+
 val version : string
 (** The version of the OCaml libvirt bindings.
 
