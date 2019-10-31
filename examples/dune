@@ -1,0 +1,4 @@
+(executables
+ (public_names domain_events get_all_domain_stats get_cpu_stats list_domains
+   list_secrets node_info)
+ (libraries libvirt))

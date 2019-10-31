@@ -1,0 +1,32 @@
+(library
+ (name mllibvirt)
+ (public_name libvirt)
+ (synopsis "binding for libvirt")
+ (modules Libvirt Libvirt_version)
+ (wrapped false)
+ (libraries unix)
+ (c_names libvirt_c_common libvirt_c_oneoffs libvirt_generated)
+ (c_flags
+  "-DCAML_NAME_SPACE"
+  (:include c_flags.sexp))
+ (c_library_flags
+  (:include c_library_flags.sexp)))
+
+(rule
+ (target libvirt_version.ml)
+ (action
+  (write-file %{target}
+    "let version = \"%{version:libvirt}\"\nlet package = \"libvirt\"\n")))
+
+(rule
+ (target libvirt_generated.c)
+ (deps generator.pl)
+ (action
+  (run perl -w generator.pl)))
+
+(rule
+ (targets c_flags.sexp c_library_flags.sexp)
+ (deps
+  (:discover config/discover.exe))
+ (action
+  (run %{discover})))

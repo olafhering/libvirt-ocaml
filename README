@@ -11,13 +11,10 @@ known functionality to OCaml programs.
 Building
 ----------------------------------------------------------------------
 
-  ./configure           # Checks that you have all the required bits.
-
-  make all		# Builds the bytecode version of libs/programs.
-  make opt		# Builds the native code version of libs/programs.
+  make
 
   make install          # Install in OCaml directory, and the binaries
-       			# in $prefix/bin.
+			# in $prefix/bin.
 
   make doc              # Build HTML documentation in html/ subdirectory.
 
